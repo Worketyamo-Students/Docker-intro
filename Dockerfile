@@ -1,23 +1,44 @@
-# Use Node.js LTS version as the base image
-FROM node:18-alpine
+# Stage 1: Build
+FROM node:18-alpine AS build
 
-# Set the working directory inside the container
+# Set the working directory
 WORKDIR /app
 
 # Copy package.json and package-lock.json to install dependencies
 COPY package.json package-lock.json ./
 
-# Install dependencies
+# Install the dependencies
 RUN npm install
 
-# Copy the entire project into the container
-COPY . .
+# Copy the entire source code into the container
+COPY src/ .
 
-# Install TypeScript and compile
-RUN npm install -g typescript && tsc
+# Copy the tsconfig.json file
+COPY tsconfig.json ./
 
-# Expose the port that the app will run on (same as in the .env file)
+# Install TypeScript globally
+RUN npm install -g typescript
+
+# Compile the TypeScript code to JavaScript
+RUN tsc --project tsconfig.json
+
+# Stage 2: Run
+FROM node:18-alpine
+
+# Set the working directory for the final container
+WORKDIR /app
+
+# Copy the compiled JavaScript code from the build stage
+COPY --from=build /app/dist ./dist
+
+# Copy the package files again
+COPY package.json package-lock.json ./
+
+# Install only production dependencies
+RUN npm install --only=production
+
+# Expose the port the app will run on
 EXPOSE ${PORT:-3000}
 
-# Start the server
+# Command to run the server
 CMD ["node", "dist/server.js"]
