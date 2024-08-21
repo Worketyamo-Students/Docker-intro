@@ -1,0 +1,24 @@
+{
+  "name": "docker-intro1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@types/chalk": "2.2",
+    "@types/morgan": "^1.9.9",
+    "chalk": "^4.1.2",
+    "express": "^4.19.2",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.4.2",
+    "typescript": "^5.5.4"
+  }
+}
