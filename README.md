@@ -27,7 +27,10 @@ docker build -t your_prject_name .
 ```
 2. Run the Docker Container
 ```bash
+a. Without considering the .env file
 docker run -p 3000:3000 your_project_name
+b. With the .env file into consideration
+docker run --env-file .env -p 3000:3000 your project name
 ```
 3. Test the API
 You can test the API by sending a POST request to:
@@ -42,6 +45,6 @@ http://localhost:3000/greetings
 }
 ```
 
-## Authors
+## Author
 
 - [@Briso10-dev](https://github.com/Briso10-dev)
